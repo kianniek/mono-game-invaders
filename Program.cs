@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BaseProject
+namespace MonoGameInvaders
 {
     public static class Program
     {
