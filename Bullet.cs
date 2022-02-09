@@ -14,10 +14,11 @@ namespace MonoGameInvaders
         public Vector2 position;
         public Vector2 velocity;
         public Texture2D texture;
-        public float speed;
+        public float speed = 10;
 
         public Bullet()
         {
+            texture = Global.content.Load<Texture2D>("spr_bullet");
         }
 
         public void Reset()
@@ -26,14 +27,22 @@ namespace MonoGameInvaders
 
         public void Update()
         {
+            velocity = Vector2.Multiply(Vector2.UnitY, -speed);
+            position += velocity;
+
+            if (position.Y < 0) {
+                Console.WriteLine("bullet went offscreen1");
+            }
         }
 
         public void Draw()
-        {            
+        {
+            Global.spriteBatch.Draw(texture, position, Color.White);
         }
 
         public void Fire(Vector2 startPosition)
-        {            
+        {  
+            position = startPosition;
         }
 
     }

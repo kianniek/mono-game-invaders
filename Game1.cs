@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -85,8 +84,8 @@ namespace MonoGameInvaders
             spriteBatch.Draw(background, Global.screenRect, Color.White);
 
             // Draw the game objects
-            thePlayer.Draw();
             theBullet.Draw();
+            thePlayer.Draw();
 
             spriteBatch.Draw(scanlines, Global.screenRect, Color.White);
             spriteBatch.End();
