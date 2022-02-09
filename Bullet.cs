@@ -10,28 +10,36 @@ namespace MonoGameInvaders
 {
     class Bullet
     {
-        public Boolean isFired = false;
+        public bool isFired = false;
         public Vector2 position;
         public Vector2 velocity;
         public Texture2D texture;
-        public float speed = 10;
+        public float speed = 3;
 
         public Bullet()
         {
             texture = Global.content.Load<Texture2D>("spr_bullet");
+            Reset();
         }
 
         public void Reset()
         {
+            velocity = Vector2.Zero;
+            position = new Vector2(-texture.Width, -texture.Height);
         }
 
         public void Update()
         {
-            velocity = Vector2.Multiply(Vector2.UnitY, -speed);
-            position += velocity;
 
-            if (position.Y < 0) {
-                Console.WriteLine("bullet went offscreen1");
+            Console.Write("\r{0}%   ", position);
+            if (position.Y < -texture.Height)
+            {
+                isFired = false;
+            }
+            else
+            {
+                velocity = Vector2.Multiply(Vector2.UnitY, -speed);
+                position += velocity;
             }
         }
 
@@ -41,8 +49,9 @@ namespace MonoGameInvaders
         }
 
         public void Fire(Vector2 startPosition)
-        {  
+        {
             position = startPosition;
+            isFired = true;
         }
 
     }
