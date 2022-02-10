@@ -61,6 +61,8 @@ namespace MonoGameInvaders
             for (int iInvader = 0; iInvader < nInvaders; iInvader++)
             {
                 Invader newInvader = new Invader();
+                int rand = Global.Random(0, newInvader.textureColors.Length);
+                newInvader.texture = newInvader.textureColors[rand];
                 invaders.Add(newInvader);
             }
             for (int iShield = 0; iShield < nShields; iShield++)
