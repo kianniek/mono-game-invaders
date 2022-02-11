@@ -71,7 +71,7 @@ namespace MonoGameInvaders
             {
                 shields[iShield] = new Shield();
 
-                shields[iShield].position = new Vector2(((Global.width/nShields) * (iShield)) + shields[iShield].texture.Width, Global.height - shields[iShield].texture.Height * 2);
+                shields[iShield].position = new Vector2(((Global.width / nShields) * (iShield)) + shields[iShield].texture.Width, Global.height - shields[iShield].texture.Height * 2);
             }
 
             // Create a new SpriteBatch, which can be used to draw textures.
@@ -113,34 +113,38 @@ namespace MonoGameInvaders
             if (Global.keys.IsKeyDown(Keys.Space)) bullet.Fire(player.position);
             // Update the game objects
 
-            for (int i = 0; i < gameObject.Count; i++)
+            foreach (GameObject gameObject in gameObject)
             {
-                gameObject.ElementAt(i).Update();
+                gameObject.Update();
             }
 
             // handling collision detection
-            foreach (Invader anInvader in gameObject.OfType<Invader>())
+            foreach (GameObject gameObject in gameObject)
             {
-                if (overlaps(bullet.position.X, bullet.position.Y, bullet.texture, anInvader.position.X, anInvader.position.Y, anInvader.texture))
+                if (gameObject is Invader)
                 {
-                    bullet.Reset();
-                    anInvader.Reset();
+                    if (overlaps(bullet.position.X, bullet.position.Y, bullet.texture, gameObject.position.X, gameObject.position.Y, gameObject.texture))
+                    {
+                        bullet.Reset();
+                        gameObject.Reset();
+                    }
                 }
-            }
-
-            foreach (Shield anShield in shields)
-            {
-                if (overlaps(bullet.position.X, bullet.position.Y, bullet.texture, anShield.position.X, anShield.position.Y, anShield.texture))
+                if (gameObject is Shield)
                 {
-                    bullet.Reset();
-                    anShield.Reset();
+                    if (overlaps(bullet.position.X, bullet.position.Y, bullet.texture, gameObject.position.X, gameObject.position.Y, gameObject.texture))
+                    {
+                        bullet.Reset();
+                        gameObject.Reset();
+                    }
                 }
-            }
-
-            if (overlaps(bullet.position.X, bullet.position.Y, bullet.texture, motherShip.position.X, motherShip.position.Y, motherShip.texture))
-            {
-                motherShip.health--; 
-                bullet.Reset();
+                if (gameObject is MotherShip)
+                {
+                    if (overlaps(bullet.position.X, bullet.position.Y, bullet.texture, motherShip.position.X, motherShip.position.Y, motherShip.texture))
+                    {
+                        motherShip.health--;
+                        bullet.Reset();
+                    }
+                }
             }
 
             base.Update(gameTime);
@@ -158,9 +162,9 @@ namespace MonoGameInvaders
 
             // Draw the game objects
 
-            for (int iInvader = 0; iInvader < gameObject.Count; iInvader++)
+            foreach (GameObject gameObject in gameObject)
             {
-                gameObject.ElementAt(iInvader).Draw();
+                gameObject.Draw();
             }
             for (int ishield = 0; ishield < shields.Length; ishield++)
             {

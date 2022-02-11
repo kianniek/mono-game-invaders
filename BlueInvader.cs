@@ -8,7 +8,6 @@ namespace MonoGameInvaders
     internal class BlueInvader : Invader
     {
         int frameCount;
-        bool moved;
         public BlueInvader() : base("spr_blue_invader")
         {
         }
@@ -35,7 +34,7 @@ namespace MonoGameInvaders
             {
                 position.X -= velocity.X;
                 velocity.X = -velocity.X;
-                position.Y += velocity.Y;
+                position.Y += texture.Height;
             }
             return true;
         }
