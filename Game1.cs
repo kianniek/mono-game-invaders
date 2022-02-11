@@ -25,6 +25,8 @@ namespace MonoGameInvaders
         List<Invader> invaders = new List<Invader>();
         private int nInvaders = 16;
 
+        public int frameCount;
+
         //TODO: Add multiple invaders here
 
         public Game1()
@@ -60,10 +62,14 @@ namespace MonoGameInvaders
             //add objects to list
             for (int iInvader = 0; iInvader < nInvaders; iInvader++)
             {
-                Invader newInvader = new Invader();
-                int rand = Global.Random(0, newInvader.textureColors.Length);
-                newInvader.texture = newInvader.textureColors[rand];
-                invaders.Add(newInvader);
+                Invader newRedInvader = new RedInvader();
+                Invader newGreenInvader = new GreenInvader();
+                Invader newBlueInvader = new BlueInvader();
+                Invader newYellowInvader = new YellowInvader();
+                invaders.Add(newRedInvader);
+                invaders.Add(newGreenInvader);
+                invaders.Add(newBlueInvader);
+                invaders.Add(newYellowInvader);
             }
             for (int iShield = 0; iShield < nShields; iShield++)
             {
@@ -102,6 +108,8 @@ namespace MonoGameInvaders
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            //update frame counter
+            frameCount++;
             // Pass keyboard state to Global so we can use it everywhere
             Global.keys = Keyboard.GetState();
             if (Global.keys.IsKeyDown(Keys.Space) && !theBullet.isFired) theBullet.Fire(thePlayer.position);
