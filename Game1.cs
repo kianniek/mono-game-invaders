@@ -25,7 +25,6 @@ namespace MonoGameInvaders
         List<Invader> invaders = new List<Invader>();
         private int nInvaders = 16;
 
-        public int frameCount;
 
         //TODO: Add multiple invaders here
 
@@ -108,8 +107,6 @@ namespace MonoGameInvaders
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            //update frame counter
-            frameCount++;
             // Pass keyboard state to Global so we can use it everywhere
             Global.keys = Keyboard.GetState();
             if (Global.keys.IsKeyDown(Keys.Space) && !theBullet.isFired) theBullet.Fire(thePlayer.position);
