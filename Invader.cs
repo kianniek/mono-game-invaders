@@ -6,11 +6,8 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MonoGameInvaders
 {
-    class Invader
+    class Invader : GameObject
     {
-        public Vector2 position;
-        public Vector2 velocity;
-        public Texture2D texture;
 
         public Invader(String name)
         {
@@ -18,7 +15,7 @@ namespace MonoGameInvaders
             Reset();
         }
 
-        virtual public void Reset()
+        override public void Reset()
         {
             position.X = Global.Random(100, Global.width - 100);
             position.Y = Global.Random(0, Global.height - 300);
@@ -27,7 +24,7 @@ namespace MonoGameInvaders
             velocity.Y = texture.Height;
         }
 
-        virtual public bool Update()
+        override public bool Update()
         {
             position.X += velocity.X;
 
@@ -38,11 +35,6 @@ namespace MonoGameInvaders
                 position.Y += velocity.Y;
             }
             return true;
-        }
-
-        virtual public void Draw()
-        {
-            Global.spriteBatch.Draw(texture, position, Color.White);
         }
     }
 }

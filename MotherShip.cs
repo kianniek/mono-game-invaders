@@ -6,12 +6,8 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MonoGameInvaders
 {
-    internal class MotherShip
+    internal class MotherShip : GameObject
     {
-        public Vector2 position;
-        public Vector2 velocity;
-        public Texture2D texture;
-
         public int health = 2;
         public bool isDefeated;
 
@@ -21,14 +17,14 @@ namespace MonoGameInvaders
             Reset();
         }
 
-        public void Reset()
+        public override void Reset()
         {
             position.X = Global.width / 2; // horizontal center on screen
             position.Y = texture.Height; // bottom of screen
             velocity.X = -1;
         }
 
-        public bool Update()
+        public override bool Update()
         {
             //if health is equal to zero
             if (health <= 0)
@@ -47,11 +43,6 @@ namespace MonoGameInvaders
             // "clamp" the x-position to make sure it never goes out of screen bounds           
             position.X = MathHelper.Clamp(position.X, 0, Global.width - texture.Width);
             return true;
-        }
-
-        public void Draw()
-        {
-            Global.spriteBatch.Draw(texture, position, Color.White);
         }
     }
 }

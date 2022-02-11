@@ -17,12 +17,9 @@ namespace MonoGameInvaders
         SpriteBatch spriteBatch;
         Texture2D background, scanlines;
 
-        Player thePlayer;
-        Bullet theBullet;
-        MotherShip motherShip;
         private int nShields = 4;
         Shield[] shields;
-        List<Invader> invaders = new List<Invader>();
+        List<GameObject> gameObject = new List<GameObject>();
         private int nInvaders = 16;
 
 
@@ -52,9 +49,9 @@ namespace MonoGameInvaders
             Global.content = Content;
 
             // Create and Initialize game objects
-            thePlayer = new Player();
-            theBullet = new Bullet();
-            motherShip = new MotherShip();
+            gameObject.Add(new Player());
+            gameObject.Add(new Bullet());
+            gameObject.Add(new MotherShip());
 
             shields = new Shield[nShields];
 
@@ -65,10 +62,10 @@ namespace MonoGameInvaders
                 Invader newGreenInvader = new GreenInvader();
                 Invader newBlueInvader = new BlueInvader();
                 Invader newYellowInvader = new YellowInvader();
-                invaders.Add(newRedInvader);
-                invaders.Add(newGreenInvader);
-                invaders.Add(newBlueInvader);
-                invaders.Add(newYellowInvader);
+                gameObject.Add(newRedInvader);
+                gameObject.Add(newGreenInvader);
+                gameObject.Add(newBlueInvader);
+                gameObject.Add(newYellowInvader);
             }
             for (int iShield = 0; iShield < nShields; iShield++)
             {
@@ -107,42 +104,43 @@ namespace MonoGameInvaders
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            //get Single instances from list
+            Bullet bullet = gameObject.OfType<Bullet>().First();
+            Player player = gameObject.OfType<Player>().First();
+            MotherShip motherShip = gameObject.OfType<MotherShip>().First();
             // Pass keyboard state to Global so we can use it everywhere
             Global.keys = Keyboard.GetState();
-            if (Global.keys.IsKeyDown(Keys.Space) && !theBullet.isFired) theBullet.Fire(thePlayer.position);
+            if (Global.keys.IsKeyDown(Keys.Space)) bullet.Fire(player.position);
             // Update the game objects
-            thePlayer.Update();
-            theBullet.Update();
-            motherShip.Update();
-            for (int iInvader = 0; iInvader < invaders.Count; iInvader++)
+
+            for (int i = 0; i < gameObject.Count; i++)
             {
-                Invader anInvader = invaders.ElementAt(iInvader);
-                anInvader.Update();
+                gameObject.ElementAt(i).Update();
             }
 
             // handling collision detection
-            foreach (Invader anInvader in invaders)
+            foreach (Invader anInvader in gameObject.OfType<Invader>())
             {
-                if (overlaps(theBullet.position.X, theBullet.position.Y, theBullet.texture, anInvader.position.X, anInvader.position.Y, anInvader.texture))
+                if (overlaps(bullet.position.X, bullet.position.Y, bullet.texture, anInvader.position.X, anInvader.position.Y, anInvader.texture))
                 {
-                    theBullet.Reset();
+                    bullet.Reset();
                     anInvader.Reset();
                 }
             }
 
             foreach (Shield anShield in shields)
             {
-                if (overlaps(theBullet.position.X, theBullet.position.Y, theBullet.texture, anShield.position.X, anShield.position.Y, anShield.texture))
+                if (overlaps(bullet.position.X, bullet.position.Y, bullet.texture, anShield.position.X, anShield.position.Y, anShield.texture))
                 {
-                    theBullet.Reset();
+                    bullet.Reset();
                     anShield.Reset();
                 }
             }
 
-            if (overlaps(theBullet.position.X, theBullet.position.Y, theBullet.texture, motherShip.position.X, motherShip.position.Y, motherShip.texture))
+            if (overlaps(bullet.position.X, bullet.position.Y, bullet.texture, motherShip.position.X, motherShip.position.Y, motherShip.texture))
             {
                 motherShip.health--; 
-                theBullet.Reset();
+                bullet.Reset();
             }
 
             base.Update(gameTime);
@@ -159,16 +157,10 @@ namespace MonoGameInvaders
             spriteBatch.Draw(background, Global.screenRect, Color.White);
 
             // Draw the game objects
-            theBullet.Draw();
-            thePlayer.Draw();
-            if (!motherShip.isDefeated)
-            {
-                motherShip.Draw();
-            }
 
-            for (int iInvader = 0; iInvader < invaders.Count; iInvader++)
+            for (int iInvader = 0; iInvader < gameObject.Count; iInvader++)
             {
-                invaders.ElementAt(iInvader).Draw();
+                gameObject.ElementAt(iInvader).Draw();
             }
             for (int ishield = 0; ishield < shields.Length; ishield++)
             {
