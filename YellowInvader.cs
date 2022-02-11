@@ -18,7 +18,7 @@ namespace MonoGameInvaders
             position.Y = Global.Random(0, Global.height - 300);
 
             velocity.X = 3.0f;
-            velocity.Y = texture.Height/2;
+            velocity.Y = texture.Height;
         }
         public override bool Update()
         {
