@@ -137,6 +137,18 @@ namespace MonoGameInvaders
                 }
             }
 
+            foreach (Invader anInvader in gameObject.OfType<Invader>())
+            {
+                foreach (Shield anShield in shields)
+                {
+                    if (overlaps(anShield.position.X, anShield.position.Y, anShield.texture, anInvader.position.X, anInvader.position.Y, anInvader.texture))
+                    {
+                        anInvader.Reset();
+                        anShield.Reset();
+                    }
+                }
+            }
+
             if (overlaps(bullet.position.X, bullet.position.Y, bullet.texture, motherShip.position.X, motherShip.position.Y, motherShip.texture))
             {
                 motherShip.health--; 

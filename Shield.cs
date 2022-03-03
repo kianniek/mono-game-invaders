@@ -18,7 +18,7 @@ namespace MonoGameInvaders
 
         public void Reset()
         {
-            position = Vector2.Zero;
+            position = new Vector2(-texture.Width, -texture.Height);
         }
 
         public void Update()
