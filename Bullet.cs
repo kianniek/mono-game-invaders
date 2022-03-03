@@ -19,6 +19,7 @@ namespace MonoGameInvaders
             Reset();
         }
 
+
         public override void Reset()
         {
             velocity = Vector2.Zero;
